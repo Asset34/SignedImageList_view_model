@@ -1,5 +1,5 @@
-#ifndef SIGNEDIMAGELISTWIDGET_HPP
-#define SIGNEDIMAGELISTWIDGET_HPP
+#ifndef SIGNEDIMAGETABLEWIDGET_HPP
+#define SIGNEDIMAGETABLEWIDGET_HPP
 
 #include <QTableView>
 
@@ -7,10 +7,10 @@
 #include "signedimagetableproxymodel.hpp"
 #include "signedimageitemdelegate.hpp"
 
-class SignedImageListWidget : public QTableView
+class SignedImageTableWidget : public QTableView
 {
 public:
-    explicit SignedImageListWidget(int columnCount, QWidget *parent = nullptr);
+    explicit SignedImageTableWidget(int columnCount, QWidget *parent = nullptr);
 
     SignedImageListModel *getSourceModel() const;
     SignedImageTableProxyModel *getProxyModel() const;
@@ -32,4 +32,4 @@ private:
     int m_columnCount;
 };
 
-#endif // SIGNEDIMAGELISTWIDGET_HPP
+#endif // SIGNEDIMAGETABLEWIDGET_HPP

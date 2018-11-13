@@ -1,10 +1,10 @@
-#include "signedimagelistwidget.hpp"
+#include "signedimagetablewidget.hpp"
 
 #include <QWheelEvent>
 #include <QHeaderView>
 #include <Qt>
 
-SignedImageListWidget::SignedImageListWidget(int columnCount, QWidget *parent)
+SignedImageTableWidget::SignedImageTableWidget(int columnCount, QWidget *parent)
     : QTableView(parent),
       m_columnCount(columnCount)
 {
@@ -40,22 +40,22 @@ SignedImageListWidget::SignedImageListWidget(int columnCount, QWidget *parent)
     setShowGrid(false);
 }
 
-SignedImageListModel *SignedImageListWidget::getSourceModel() const
+SignedImageListModel *SignedImageTableWidget::getSourceModel() const
 {
     return m_sourceModel;
 }
 
-SignedImageTableProxyModel *SignedImageListWidget::getProxyModel() const
+SignedImageTableProxyModel *SignedImageTableWidget::getProxyModel() const
 {
     return m_proxyModel;
 }
 
-void SignedImageListWidget::setColumnCount(int count)
+void SignedImageTableWidget::setColumnCount(int count)
 {
     m_columnCount = count;
 }
 
-void SignedImageListWidget::wheelEvent(QWheelEvent *event)
+void SignedImageTableWidget::wheelEvent(QWheelEvent *event)
 {
     if (event->modifiers() & Qt::ControlModifier) {
         if (event->delta() > 0) {
