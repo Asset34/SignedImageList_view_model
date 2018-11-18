@@ -53,7 +53,7 @@ Qt::ItemFlags SignedImageListModel::flags(const QModelIndex &index) const
     return QAbstractListModel::flags(index) | Qt::ItemIsEditable;
 }
 
-const std::shared_ptr<QImage> &SignedImageListModel::getImageAt(int row) const
+std::shared_ptr<QImage> SignedImageListModel::getImageAt(int row) const
 {
     return m_signedImages.at(row).image;
 }
@@ -64,7 +64,7 @@ const QString &SignedImageListModel::getSignAt(int row) const
 }
 
 void SignedImageListModel::addSignedImage(
-        const std::shared_ptr<QImage> &image,
+        std::shared_ptr<QImage> image,
         const QString &sign
         )
 {
@@ -75,7 +75,7 @@ void SignedImageListModel::addSignedImage(
     endInsertRows();
 }
 
-void SignedImageListModel::addImage(const std::shared_ptr<QImage> &image)
+void SignedImageListModel::addImage(std::shared_ptr<QImage> image)
 {
     addSignedImage(image, QString());
 }
@@ -98,7 +98,7 @@ void SignedImageListModel::removeAt(const QModelIndex &index)
     removeAt(index.row());
 }
 
-void SignedImageListModel::setImageAt(int row, const std::shared_ptr<QImage> &image)
+void SignedImageListModel::setImageAt(int row, std::shared_ptr<QImage> image)
 {
     m_signedImages[row].image = image;
 }

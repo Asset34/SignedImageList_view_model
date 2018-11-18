@@ -4,6 +4,8 @@
 #include <QHeaderView>
 #include <Qt>
 
+#include <algorithm>
+
 SignedImageTableWidget::SignedImageTableWidget(int columnCount, QWidget *parent)
     : QTableView(parent)
 {
@@ -44,15 +46,7 @@ SignedImageListModel *SignedImageTableWidget::getSourceModel() const
     return m_sourceModel;
 }
 
-void SignedImageTableWidget::setColumnCount(int count)
-{
-    m_proxyModel->setColumnCount(count);
-
-    setModel(nullptr);
-    setModel(m_proxyModel);
-}
-
-const std::shared_ptr<QImage> &SignedImageTableWidget::getImageAt(int row, int column) const
+std::shared_ptr<QImage> SignedImageTableWidget::getImageAt(int row, int column) const
 {
     return m_proxyModel->getImageAt(row, column);
 }
@@ -62,15 +56,71 @@ const QString &SignedImageTableWidget::getSignAt(int row, int column) const
     return m_proxyModel->getSignAt(row, column);
 }
 
+QModelIndexList SignedImageTableWidget::getSelectedIndexes() const
+{
+    QModelIndexList indexes = selectionModel()->selectedIndexes();
+
+    std::sort(indexes.begin(), indexes.end(),
+              [&indexes](
+              const QModelIndex &index1,
+              const QModelIndex &index2
+              ) -> bool {
+        return index2 < index1;
+    });
+
+    return indexes;
+}
+
+QModelIndex SignedImageTableWidget::getSelectedIndex() const
+{
+    QModelIndexList indexes = selectionModel()->selectedIndexes();
+
+    if (indexes.count() <= 0) {
+        return QModelIndex();
+    }
+
+    return indexes.at(0);
+}
+
+std::shared_ptr<QImage> SignedImageTableWidget::getSelectedImage() const
+{
+    QModelIndex index = getSelectedIndex();
+
+    if (!index.isValid()) {
+        return nullptr;
+    }
+
+    return getImageAt(index.row(), index.column());
+}
+
+QString SignedImageTableWidget::getSelectedSign() const
+{
+    QModelIndex index = getSelectedIndex();
+
+    if (!index.isValid()) {
+        return QString();
+    }
+
+    return getSignAt(index.row(), index.column());
+}
+
+void SignedImageTableWidget::setColumnCount(int count)
+{
+    m_proxyModel->setColumnCount(count);
+
+    setModel(nullptr);
+    setModel(m_proxyModel);
+}
+
 void SignedImageTableWidget::addSignedImage(
-        const std::shared_ptr<QImage> &image,
+        std::shared_ptr<QImage> image,
         const QString &sign
         )
 {
     m_proxyModel->addSignedImage(image, sign);
 }
 
-void SignedImageTableWidget::addImage(const std::shared_ptr<QImage> &image)
+void SignedImageTableWidget::addImage(std::shared_ptr<QImage> image)
 {
     m_proxyModel->addImage(image);
 }
@@ -85,7 +135,7 @@ void SignedImageTableWidget::removeAt(const QModelIndex &index)
     m_proxyModel->removeAt(index);
 }
 
-void SignedImageTableWidget::setImageAt(int row, int column, const std::shared_ptr<QImage> &image)
+void SignedImageTableWidget::setImageAt(int row, int column, std::shared_ptr<QImage> image)
 {
     m_proxyModel->setImageAt(row, column, image);
 }

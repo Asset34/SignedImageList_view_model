@@ -14,19 +14,27 @@ public:
 
     SignedImageListModel *getSourceModel() const;
 
+    std::shared_ptr<QImage> getImageAt(int row, int column) const;
+    const QString &getSignAt(int row, int column) const;
+
+    QModelIndexList getSelectedIndexes() const;
+    QModelIndex getSelectedIndex() const;
+
+    std::shared_ptr<QImage> getSelectedImage() const;
+    QString getSelectedSign() const;
+
 public slots:
     void setColumnCount(int count);
 
-    const std::shared_ptr<QImage> &getImageAt(int row, int column) const;
-    const QString &getSignAt(int row, int column) const;
-
-    void addSignedImage(const std::shared_ptr<QImage> &image, const QString &sign);
-    void addImage(const std::shared_ptr<QImage> &image);
+    void addSignedImage(std::shared_ptr<QImage> image, const QString &sign);
+    void addImage(std::shared_ptr<QImage> image);
 
     void removeAt(int row, int column);
     void removeAt(const QModelIndex &index);
 
-    void setImageAt(int row, int column, const std::shared_ptr<QImage> &image);
+    void removeSelected();
+
+    void setImageAt(int row, int column, std::shared_ptr<QImage> image);
     void setSignAt(int row, int column, const QString &sign);
 
 protected:

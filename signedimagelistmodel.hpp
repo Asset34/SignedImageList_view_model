@@ -21,17 +21,17 @@ public:
 
     Qt::ItemFlags flags(const QModelIndex &index) const override;
 
-    const std::shared_ptr<QImage> &getImageAt(int row) const;
+    std::shared_ptr<QImage> getImageAt(int row) const;
     const QString &getSignAt(int row) const;
 
 public slots:
-    void addSignedImage(const std::shared_ptr<QImage> &image, const QString &sign);
-    void addImage(const std::shared_ptr<QImage> &image);
+    void addSignedImage(std::shared_ptr<QImage> image, const QString &sign);
+    void addImage(std::shared_ptr<QImage> image);
 
     void removeAt(int row);
     void removeAt(const QModelIndex &index);
 
-    void setImageAt(int row, const std::shared_ptr<QImage> &image);
+    void setImageAt(int row, std::shared_ptr<QImage> image);
     void setSignAt(int row, const QString &sign);
 
 private:

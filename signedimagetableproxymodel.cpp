@@ -105,11 +105,6 @@ int SignedImageTableProxyModel::getColumnCount() const
     return m_columnCount;
 }
 
-void SignedImageTableProxyModel::setColumnCount(int count)
-{
-    m_columnCount = count;
-}
-
 const std::shared_ptr<QImage> &SignedImageTableProxyModel::getImageAt(int row, int column) const
 {
     int sourceRow = toSoure(row, column);
@@ -124,15 +119,19 @@ const QString &SignedImageTableProxyModel::getSignAt(int row, int column) const
     return m_model->getSignAt(sourceRow);
 }
 
-void SignedImageTableProxyModel::addSignedImage(
-        const std::shared_ptr<QImage> &image,
+void SignedImageTableProxyModel::setColumnCount(int count)
+{
+    m_columnCount = count;
+}
+
+void SignedImageTableProxyModel::addSignedImage(std::shared_ptr<QImage> image,
         const QString &sign
         )
 {
     m_model->addSignedImage(image, sign);
 }
 
-void SignedImageTableProxyModel::addImage(const std::shared_ptr<QImage> &image)
+void SignedImageTableProxyModel::addImage(std::shared_ptr<QImage> image)
 {
     m_model->addImage(image);
 }
@@ -154,10 +153,9 @@ void SignedImageTableProxyModel::removeAt(const QModelIndex &index)
     m_model->removeAt(sourceIndex);
 }
 
-void SignedImageTableProxyModel::setImageAt(
-        int row,
+void SignedImageTableProxyModel::setImageAt(int row,
         int column,
-        const std::shared_ptr<QImage> &image
+        std::shared_ptr<QImage> image
         )
 {
     int sourceRow = toSoure(row, column);
