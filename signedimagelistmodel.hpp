@@ -6,6 +6,8 @@
 #include <QString>
 #include <QVector>
 
+#include <memory>
+
 class SignedImageListModel : public QAbstractListModel
 {
     Q_OBJECT
@@ -19,25 +21,23 @@ public:
 
     Qt::ItemFlags flags(const QModelIndex &index) const override;
 
-    const QImage &getImageAt(int row) const;
+    const std::shared_ptr<QImage> &getImageAt(int row) const;
     const QString &getSignAt(int row) const;
 
 public slots:
-    void addSignedImage(const QImage &image, const QString &sign);
-    void addImage(const QImage &image);
+    void addSignedImage(const std::shared_ptr<QImage> &image, const QString &sign);
+    void addImage(const std::shared_ptr<QImage> &image);
 
     void removeAt(int row);
     void removeAt(const QModelIndex &index);
 
-    void setImageAt(int row, const QImage &image);
+    void setImageAt(int row, const std::shared_ptr<QImage> &image);
     void setSignAt(int row, const QString &sign);
-
-    void updateRow(int row);
 
 private:
     struct SignedImage
     {
-        QImage image;
+        std::shared_ptr<QImage> image;
         QString sign;
     };
 

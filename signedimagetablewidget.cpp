@@ -5,12 +5,11 @@
 #include <Qt>
 
 SignedImageTableWidget::SignedImageTableWidget(int columnCount, QWidget *parent)
-    : QTableView(parent),
-      m_columnCount(columnCount)
+    : QTableView(parent)
 {
     m_sourceModel = new SignedImageListModel;
 
-    m_proxyModel = new SignedImageTableProxyModel(m_columnCount);
+    m_proxyModel = new SignedImageTableProxyModel(columnCount);
     m_proxyModel->setSourceModel(m_sourceModel);
 
     m_delegate = new SignedImageItemDelegate;
@@ -45,14 +44,55 @@ SignedImageListModel *SignedImageTableWidget::getSourceModel() const
     return m_sourceModel;
 }
 
-SignedImageTableProxyModel *SignedImageTableWidget::getProxyModel() const
-{
-    return m_proxyModel;
-}
-
 void SignedImageTableWidget::setColumnCount(int count)
 {
-    m_columnCount = count;
+    m_proxyModel->setColumnCount(count);
+
+    setModel(nullptr);
+    setModel(m_proxyModel);
+}
+
+const std::shared_ptr<QImage> &SignedImageTableWidget::getImageAt(int row, int column) const
+{
+    return m_proxyModel->getImageAt(row, column);
+}
+
+const QString &SignedImageTableWidget::getSignAt(int row, int column) const
+{
+    return m_proxyModel->getSignAt(row, column);
+}
+
+void SignedImageTableWidget::addSignedImage(
+        const std::shared_ptr<QImage> &image,
+        const QString &sign
+        )
+{
+    m_proxyModel->addSignedImage(image, sign);
+}
+
+void SignedImageTableWidget::addImage(const std::shared_ptr<QImage> &image)
+{
+    m_proxyModel->addImage(image);
+}
+
+void SignedImageTableWidget::removeAt(int row, int column)
+{
+    m_proxyModel->removeAt(row, column);
+}
+
+void SignedImageTableWidget::removeAt(const QModelIndex &index)
+{
+    m_proxyModel->removeAt(index);
+}
+
+void SignedImageTableWidget::setImageAt(int row, int column, const std::shared_ptr<QImage> &image)
+{
+    m_proxyModel->setImageAt(row, column, image);
+}
+
+void SignedImageTableWidget::setSignAt(int row, int column, const QString &sign)
+{
+    m_proxyModel->setSignAt(row, column, sign);
 }
 
 void SignedImageTableWidget::wheelEvent(QWheelEvent *event)

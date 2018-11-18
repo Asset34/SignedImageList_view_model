@@ -97,7 +97,44 @@ Qt::ItemFlags SignedImageTableProxyModel::flags(const QModelIndex &index) const
 
     return sourceModel()->flags(sourceIndex) |
            Qt::ItemIsEnabled |
-           Qt::ItemIsSelectable;
+            Qt::ItemIsSelectable;
+}
+
+int SignedImageTableProxyModel::getColumnCount() const
+{
+    return m_columnCount;
+}
+
+void SignedImageTableProxyModel::setColumnCount(int count)
+{
+    m_columnCount = count;
+}
+
+const std::shared_ptr<QImage> &SignedImageTableProxyModel::getImageAt(int row, int column) const
+{
+    int sourceRow = toSoure(row, column);
+
+    return m_model->getImageAt(sourceRow);
+}
+
+const QString &SignedImageTableProxyModel::getSignAt(int row, int column) const
+{
+    int sourceRow = toSoure(row, column);
+
+    return m_model->getSignAt(sourceRow);
+}
+
+void SignedImageTableProxyModel::addSignedImage(
+        const std::shared_ptr<QImage> &image,
+        const QString &sign
+        )
+{
+    m_model->addSignedImage(image, sign);
+}
+
+void SignedImageTableProxyModel::addImage(const std::shared_ptr<QImage> &image)
+{
+    m_model->addImage(image);
 }
 
 void SignedImageTableProxyModel::removeAt(int row, int column)
@@ -117,9 +154,22 @@ void SignedImageTableProxyModel::removeAt(const QModelIndex &index)
     m_model->removeAt(sourceIndex);
 }
 
-void SignedImageTableProxyModel::setColumnCount(int count)
+void SignedImageTableProxyModel::setImageAt(
+        int row,
+        int column,
+        const std::shared_ptr<QImage> &image
+        )
 {
-    m_columnCount = count;
+    int sourceRow = toSoure(row, column);
+
+    m_model->setImageAt(sourceRow, image);
+}
+
+void SignedImageTableProxyModel::setSignAt(int row, int column, const QString &sign)
+{
+    int sourceRow = toSoure(row, column);
+
+    m_model->setSignAt(sourceRow, sign);
 }
 
 QModelIndex SignedImageTableProxyModel::parent(const QModelIndex &/*child*/) const

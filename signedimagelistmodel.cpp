@@ -20,7 +20,7 @@ QVariant SignedImageListModel::data(const QModelIndex &index, int role) const
     switch (role)
     {
         case Qt::DisplayRole: {
-            return m_signedImages.at(index.row()).image;
+            return *m_signedImages.at(index.row()).image;
         }
         case Qt::DecorationRole: {
             return m_signedImages.at(index.row()).sign;
@@ -53,7 +53,7 @@ Qt::ItemFlags SignedImageListModel::flags(const QModelIndex &index) const
     return QAbstractListModel::flags(index) | Qt::ItemIsEditable;
 }
 
-const QImage &SignedImageListModel::getImageAt(int row) const
+const std::shared_ptr<QImage> &SignedImageListModel::getImageAt(int row) const
 {
     return m_signedImages.at(row).image;
 }
@@ -63,7 +63,10 @@ const QString &SignedImageListModel::getSignAt(int row) const
     return m_signedImages.at(row).sign;
 }
 
-void SignedImageListModel::addSignedImage(const QImage &image, const QString &sign)
+void SignedImageListModel::addSignedImage(
+        const std::shared_ptr<QImage> &image,
+        const QString &sign
+        )
 {
     beginInsertRows(QModelIndex(), m_signedImages.count(), m_signedImages.count());
 
@@ -72,7 +75,7 @@ void SignedImageListModel::addSignedImage(const QImage &image, const QString &si
     endInsertRows();
 }
 
-void SignedImageListModel::addImage(const QImage &image)
+void SignedImageListModel::addImage(const std::shared_ptr<QImage> &image)
 {
     addSignedImage(image, QString());
 }
@@ -95,7 +98,7 @@ void SignedImageListModel::removeAt(const QModelIndex &index)
     removeAt(index.row());
 }
 
-void SignedImageListModel::setImageAt(int row, const QImage &image)
+void SignedImageListModel::setImageAt(int row, const std::shared_ptr<QImage> &image)
 {
     m_signedImages[row].image = image;
 }
@@ -103,12 +106,4 @@ void SignedImageListModel::setImageAt(int row, const QImage &image)
 void SignedImageListModel::setSignAt(int row, const QString &sign)
 {
     m_signedImages[row].sign = sign;
-}
-
-void SignedImageListModel::updateRow(int row)
-{
-    QModelIndex topLeft = index(row);
-    QModelIndex bottomRight = index(row);
-
-    emit dataChanged(topLeft, bottomRight);
 }
