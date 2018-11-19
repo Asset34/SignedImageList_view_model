@@ -72,17 +72,17 @@ void SignedImageTableManager::addSignedImage(
 
 void SignedImageTableManager::add()
 {
-    QString path = QFileDialog::getOpenFileName(
+    QStringList pathList = QFileDialog::getOpenFileNames(
                 this,
                 tr("Open Image"),
                 "",
                 tr("Image files (*.png *.jpg *jpeg *.png *.bmp)")
                 );
 
-    if (!path.isNull()) {
-        QImage image(path);
-
-        addSignedImage(std::make_shared<QImage>(image));
+    for (QString path : pathList) {
+        if (!path.isNull()) {
+            addSignedImage(std::make_shared<QImage>(QImage(path)));
+        }
     }
 }
 
