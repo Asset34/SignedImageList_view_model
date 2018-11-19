@@ -42,6 +42,11 @@ SignedImageTableManager::SignedImageTableManager(int columnCount, QWidget *paren
     connect(m_removeButton, &QPushButton::clicked, this, &SignedImageTableManager::remove);
 }
 
+int SignedImageTableManager::getCount() const
+{
+    return m_tableWidget->getCount();
+}
+
 std::shared_ptr<QImage> SignedImageTableManager::getImageAt(int row, int column) const
 {
     return m_tableWidget->getImageAt(row, column);
