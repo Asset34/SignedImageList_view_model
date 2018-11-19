@@ -47,11 +47,6 @@ SignedImageListModel *SignedImageTableManager::getModel() const
     return m_tableWidget->getSourceModel();
 }
 
-int SignedImageTableManager::getCount() const
-{
-    return m_tableWidget->getCount();
-}
-
 std::shared_ptr<QImage> SignedImageTableManager::getImageAt(int row, int column) const
 {
     return m_tableWidget->getImageAt(row, column);

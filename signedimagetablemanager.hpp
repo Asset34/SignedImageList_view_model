@@ -21,8 +21,6 @@ public:
 
     SignedImageListModel *getModel() const;
 
-    int getCount() const;
-
     std::shared_ptr<QImage> getImageAt(int row, int column) const;
     const QString &getSignAt(int row, int column) const;
 

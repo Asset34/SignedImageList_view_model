@@ -46,11 +46,6 @@ SignedImageListModel *SignedImageTableWidget::getSourceModel() const
     return m_sourceModel;
 }
 
-int SignedImageTableWidget::getCount() const
-{
-    return m_sourceModel->rowCount();
-}
-
 std::shared_ptr<QImage> SignedImageTableWidget::getImageAt(int row, int column) const
 {
     return m_proxyModel->getImageAt(row, column);
