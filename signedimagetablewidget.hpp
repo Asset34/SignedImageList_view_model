@@ -26,16 +26,9 @@ public:
 public slots:
     void setColumnCount(int count);
 
-    void addSignedImage(std::shared_ptr<QImage> image, const QString &sign);
-    void addImage(std::shared_ptr<QImage> image);
-
+    void addSignedImage(std::shared_ptr<QImage> image, const QString &sign = QString());
     void removeAt(int row, int column);
-    void removeAt(const QModelIndex &index);
-
     void removeSelected();
-
-    void setImageAt(int row, int column, std::shared_ptr<QImage> image);
-    void setSignAt(int row, int column, const QString &sign);
 
 protected:
     void wheelEvent(QWheelEvent *event) override;

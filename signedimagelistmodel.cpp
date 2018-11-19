@@ -75,11 +75,6 @@ void SignedImageListModel::addSignedImage(
     endInsertRows();
 }
 
-void SignedImageListModel::addImage(std::shared_ptr<QImage> image)
-{
-    addSignedImage(image, QString());
-}
-
 void SignedImageListModel::removeAt(int row)
 {
     beginRemoveRows(QModelIndex(), row, row);
@@ -87,23 +82,4 @@ void SignedImageListModel::removeAt(int row)
     m_signedImages.removeAt(row);
 
     endRemoveRows();
-}
-
-void SignedImageListModel::removeAt(const QModelIndex &index)
-{
-    if (!index.isValid()) {
-        return;
-    }
-
-    removeAt(index.row());
-}
-
-void SignedImageListModel::setImageAt(int row, std::shared_ptr<QImage> image)
-{
-    m_signedImages[row].image = image;
-}
-
-void SignedImageListModel::setSignAt(int row, const QString &sign)
-{
-    m_signedImages[row].sign = sign;
 }

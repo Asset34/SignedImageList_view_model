@@ -120,29 +120,20 @@ void SignedImageTableWidget::addSignedImage(
     m_proxyModel->addSignedImage(image, sign);
 }
 
-void SignedImageTableWidget::addImage(std::shared_ptr<QImage> image)
-{
-    m_proxyModel->addImage(image);
-}
-
 void SignedImageTableWidget::removeAt(int row, int column)
 {
     m_proxyModel->removeAt(row, column);
 }
 
-void SignedImageTableWidget::removeAt(const QModelIndex &index)
+void SignedImageTableWidget::removeSelected()
 {
-    m_proxyModel->removeAt(index);
-}
+    QModelIndexList indexes = getSelectedIndexes();
 
-void SignedImageTableWidget::setImageAt(int row, int column, std::shared_ptr<QImage> image)
-{
-    m_proxyModel->setImageAt(row, column, image);
-}
+    for (QModelIndex index : indexes) {
+        m_proxyModel->removeAt(index.row(), index.column());
+    }
 
-void SignedImageTableWidget::setSignAt(int row, int column, const QString &sign)
-{
-    m_proxyModel->setSignAt(row, column, sign);
+    selectionModel()->clear();
 }
 
 void SignedImageTableWidget::wheelEvent(QWheelEvent *event)

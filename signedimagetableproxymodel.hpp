@@ -33,20 +33,14 @@ public:
 
     int getColumnCount() const;
 
-    const std::shared_ptr<QImage> &getImageAt(int row, int column) const;
+    std::shared_ptr<QImage> getImageAt(int row, int column) const;
     const QString &getSignAt(int row, int column) const;
 
 public slots:
     void setColumnCount(int count);
 
-    void addSignedImage(std::shared_ptr<QImage> image, const QString &sign);
-    void addImage(std::shared_ptr<QImage> image);
-
+    void addSignedImage(std::shared_ptr<QImage> image, const QString &sign = QString());
     void removeAt(int row, int column);
-    void removeAt(const QModelIndex &index);
-
-    void setImageAt(int row, int column, std::shared_ptr<QImage> image);
-    void setSignAt(int row, int column, const QString &sign);
 
 private:
     QModelIndex parent(const QModelIndex &child) const override;

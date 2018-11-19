@@ -25,14 +25,8 @@ public:
     const QString &getSignAt(int row) const;
 
 public slots:
-    void addSignedImage(std::shared_ptr<QImage> image, const QString &sign);
-    void addImage(std::shared_ptr<QImage> image);
-
+    void addSignedImage(std::shared_ptr<QImage> image, const QString &sign = QString());
     void removeAt(int row);
-    void removeAt(const QModelIndex &index);
-
-    void setImageAt(int row, std::shared_ptr<QImage> image);
-    void setSignAt(int row, const QString &sign);
 
 private:
     struct SignedImage

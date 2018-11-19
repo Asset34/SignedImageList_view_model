@@ -97,7 +97,7 @@ Qt::ItemFlags SignedImageTableProxyModel::flags(const QModelIndex &index) const
 
     return sourceModel()->flags(sourceIndex) |
            Qt::ItemIsEnabled |
-            Qt::ItemIsSelectable;
+           Qt::ItemIsSelectable;
 }
 
 int SignedImageTableProxyModel::getColumnCount() const
@@ -105,7 +105,7 @@ int SignedImageTableProxyModel::getColumnCount() const
     return m_columnCount;
 }
 
-const std::shared_ptr<QImage> &SignedImageTableProxyModel::getImageAt(int row, int column) const
+std::shared_ptr<QImage> SignedImageTableProxyModel::getImageAt(int row, int column) const
 {
     int sourceRow = toSoure(row, column);
 
@@ -131,43 +131,11 @@ void SignedImageTableProxyModel::addSignedImage(std::shared_ptr<QImage> image,
     m_model->addSignedImage(image, sign);
 }
 
-void SignedImageTableProxyModel::addImage(std::shared_ptr<QImage> image)
-{
-    m_model->addImage(image);
-}
-
 void SignedImageTableProxyModel::removeAt(int row, int column)
 {
     int sourceRow = toSoure(row, column);
 
     m_model->removeAt(sourceRow);
-}
-
-void SignedImageTableProxyModel::removeAt(const QModelIndex &index)
-{
-    if (!index.isValid()) {
-        return;
-    }
-
-    QModelIndex sourceIndex = mapToSource(index);
-    m_model->removeAt(sourceIndex);
-}
-
-void SignedImageTableProxyModel::setImageAt(int row,
-        int column,
-        std::shared_ptr<QImage> image
-        )
-{
-    int sourceRow = toSoure(row, column);
-
-    m_model->setImageAt(sourceRow, image);
-}
-
-void SignedImageTableProxyModel::setSignAt(int row, int column, const QString &sign)
-{
-    int sourceRow = toSoure(row, column);
-
-    m_model->setSignAt(sourceRow, sign);
 }
 
 QModelIndex SignedImageTableProxyModel::parent(const QModelIndex &/*child*/) const
