@@ -42,6 +42,11 @@ SignedImageTableManager::SignedImageTableManager(int columnCount, QWidget *paren
     connect(m_removeButton, &QPushButton::clicked, this, &SignedImageTableManager::remove);
 }
 
+SignedImageListModel *SignedImageTableManager::getModel() const
+{
+    return m_tableWidget->getSourceModel();
+}
+
 int SignedImageTableManager::getCount() const
 {
     return m_tableWidget->getCount();

@@ -3,6 +3,8 @@
 
 #include <QWidget>
 
+#include "signedimagelistmodel.hpp"
+
 #include <memory>
 
 class QHBoxLayout;
@@ -16,6 +18,10 @@ class SignedImageTableManager : public QWidget
 
 public:
     explicit SignedImageTableManager(int columnCount, QWidget *parent = nullptr);
+
+    SignedImageListModel *getModel() const;
+
+    int getCount() const;
 
     std::shared_ptr<QImage> getImageAt(int row, int column) const;
     const QString &getSignAt(int row, int column) const;
